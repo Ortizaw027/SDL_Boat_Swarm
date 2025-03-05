@@ -8,7 +8,7 @@ BIN1 = 23
 BIN2 = 24
 PWMA = 18
 PWMB = 19
-
+STBY = 13
 #Initialize GPIO
 pi = pigpio.pi()
 
@@ -17,9 +17,10 @@ pi.set_mode(AIN1, pigpio.OUTPUT)
 pi.set_mode(AIN2, pigpio.OUTPUT)
 pi.set_mode(BIN1, pigpio.OUTPUT)
 pi.set_mode(BIN2, pigpio.OUTPUT)
-
+pi.set_mode(STBY, pigpio.OUTPUT)
 
 def forward(speed = 75):  #Speed is the percentage (0-100)
+	pi.write(STBY, 1)
 	pi.write(AIN1, 1)
 	pi.write(AIN2, 0)
 	pi.write(BIN1, 1)
@@ -42,4 +43,5 @@ try:
 finally:
 
 	stop()
+	pi.write(STBY, 0)
 	pi.stop()
