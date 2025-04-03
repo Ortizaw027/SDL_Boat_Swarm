@@ -33,14 +33,14 @@ def test_pwm():
     pi.write(BIN2, 0)
 
     print("Increasing PWM...")
-    for pwm in range(0, 256, 10):  # Sweep PWM from 0 to 255 in steps of 10
+    for pwm in range(40, 115, 5):  # Sweep PWM from 40 to 115 in steps of 10. A full sweep is from 0-255 but 40-115 is the working range of the motors.
         print(f"PWM: {pwm}")
         pi.set_PWM_dutycycle(PWMA, pwm)
         pi.set_PWM_dutycycle(PWMB, pwm)
         time.sleep(1)
 
     print("Decreasing PWM...")
-    for pwm in range(255, -1, -10):  # Sweep PWM down to 0
+    for pwm in range(115, -1, -5):  # Sweep PWM down to 0
         print(f"PWM: {pwm}")
         pi.set_PWM_dutycycle(PWMA, pwm)
         pi.set_PWM_dutycycle(PWMB, pwm)
