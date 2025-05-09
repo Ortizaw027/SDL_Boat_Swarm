@@ -39,4 +39,4 @@ A short video demonstrating the project's results can be found here:
 
 ---
 
-**Note:** Remember to replace `[Link to Demo Video Here]` with the actual link to your video file or hosting platform.
+**Note:** Remember to replace https://youtube.com/shorts/xEofub0lBZo?feature=share with the actual link to your video file or hosting platform.
