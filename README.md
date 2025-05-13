@@ -2,39 +2,132 @@
 
 ## Project Overview
 
-This project developed a functional swarm of Unmanned Surface Vehicles (USVs) capable of coordinated movement using a centralized controller and a Leader-Follower dynamic approach over a secure LoRa network. The goal was to demonstrate enhanced efficiency, resilience, and safety for maritime tasks compared to single-unit operations.
+This project implements a coordinated swarm of Unmanned Surface Vehicles (USVs) using a Leader-Follower architecture and LoRa wireless communication, supported by a centralized controller and a custom Python control stack.
 
 **Authors:** Dominic Mesagna & Antonio Ortiz
+**Institution:** SUNY Polytechnic Institute – Department of Electrical and Computer Engineering
+**Sponsor:** Drone City
 
-## Key Objectives Achieved
+## Key Features
 
-* Developed a functioning swarm of two USVs.
-* Integrated GPS and Compass sensors for navigation.
-* Established a secure LoRa network for communication.
-* Implemented a Centralized Controller for management and monitoring.
-* Demonstrated coordinated movement using a Leader-Follower algorithm.
+* Autonomous route-following with heading and GPS feedback.
+* Real-time swarm coordination using RSSI-based formation maintenance.
+* Centralized GUI-based controller for monitoring and command issuance.
+* Full modular Python codebase, easily extendable to more followers.
 
-## Technology Highlights
+## Repository Structure
 
-* **Hardware:** Raspberry Pi Zero 2W, NEO-6M GPS, HMC5883L Compass, RYLR896 LoRa, TB6612FNG Motor Driver, custom-integrated RC boat hulls.
-* **Software:** Python-based control scripts (`LeaderBoat.py`, `FollowerBoat.py`, `Controller.py`) utilizing `pigpio`, `serial`, and `smbus2` libraries.
+* `LeaderBoat.py`: Main control script for the leader boat.
+* `FollowerBoat.py`: Main control script for each follower boat.
+* `Controller.py`: Script running on the Controller Pi, handling LoRa-USB relay.
+* `GUI.py`: Python/Tkinter-based GUI for starting/stopping the swarm and monitoring data.
+* `sensor_test_programs/`: Standalone scripts for motor, GPS, compass, and LoRa testing.
 
-## Component Testing Scripts
+## How to Use the Code
 
-The `sensor_test_programs` directory within this repository contains dedicated Python scripts designed for the isolated functional verification and characterization of individual hardware components, including motor control, GPS data acquisition, and compass readings. These scripts facilitate granular testing and debugging of the sensor and actuator interfaces prior to integrated system deployment.
+### 1. Transfer Code Files to the Raspberry Pis
 
-## Results Summary
+**Method 1: WinSCP (Recommended for Windows users)**
 
-Controlled testing demonstrated coordinated movement and reliable communication between the two USVs. The system successfully integrated sensor data for navigation and maintained communication links for control and telemetry reporting.
+* Download WinSCP: [https://winscp.net](https://winscp.net)
+* Connect via SFTP to your Pi (username/password as configured during setup).
+* Drag and drop `.py` scripts into the `/home/pi` directory.
 
-## Acknowledgments
+**Method 2: nano (Manual copy-paste)**
 
-This project was made possible with the generous support from Drone City, who aided in the purchasing of the resources used in this project.
+* SSH into your Pi:
+
+  ```bash
+  ssh pi@<your_pi_ip>
+  ```
+* Create and edit the script:
+
+  ```bash
+  nano LeaderBoat.py
+  ```
+* Paste the code and save (`Ctrl+X`, then `Y`, then `Enter`).
+
+### 2. Run the Programs Manually
+
+On each Pi:
+
+```bash
+python3 LeaderBoat.py
+python3 FollowerBoat.py
+python3 Controller.py
+```
+
+On the laptop:
+
+```bash
+python3 GUI.py
+```
+
+Press `Ctrl+C` to stop any script manually.
+
+---
+
+### 3. \[Optional] Auto-Run Scripts on Boot
+
+Use `systemd` to create services:
+
+```bash
+sudo nano /etc/systemd/system/leaderboat.service
+```
+
+Paste:
+
+```ini
+[Unit]
+Description=Leader Boat Script
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/LeaderBoat.py
+WorkingDirectory=/home/pi
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable leaderboat.service
+sudo systemctl start leaderboat.service
+```
+
+Repeat with `followerboat.service` or `controller.service` as needed.
+
+---
+
+## Additional Notes
+
+* Each boat has a unique hardcoded LoRa address (e.g., 101 = Leader, 102 = Follower).
+* The Controller Pi communicates with the GUI over USB serial (`/dev/ttyGS0`) and with boats via LoRa.
+* Test scripts are included to validate each sensor/module independently before full integration.
+
+## Troubleshooting Tips
+
+* **Boot Loop**: Unplug, reseat SD card, and reconnect power.
+* **No GPS Data**: Ensure pigpiod is running; check TX (GPIO27) wiring.
+* **Compass Jitter**: Mount compass flat and away from motors.
+* **No LoRa Communication**: Check serial port wiring and LoRa IDs.
+* **GUI Not Receiving Data**: Confirm USB Gadget mode is active and `/dev/ttyGS0` exists.
 
 ## Demo Video
 
-A short video demonstrating the project's results can be found here:
+🎥 [Watch Project Demo](https://youtube.com/shorts/xEofub0lBZo?feature=share)
 
-https://youtube.com/shorts/xEofub0lBZo?feature=share
----
+## License
 
+This project is open-source and available for educational and research use.
+
+## GitHub
+
+📁 [https://github.com/Ortizaw027/SDL\_Boat\_Swarm.git](https://github.com/Ortizaw027/SDL_Boat_Swarm.git)
