@@ -122,4 +122,6 @@ Repeat with `followerboat.service` or `controller.service` as needed.
 
 ## Demo Video
 
-🎥 [Watch Project Demo](https://youtube.com/shorts/xEofub0lBZo?feature=share)
+🎥 [Watch Project Demo 1](https://youtube.com/shorts/xEofub0lBZo?feature=share)
+🎥 [Watch Project Demo 2](https://youtube.com/shorts/PunQt1y4O5o?feature=share)
+
