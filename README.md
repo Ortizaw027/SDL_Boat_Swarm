@@ -123,11 +123,3 @@ Repeat with `followerboat.service` or `controller.service` as needed.
 ## Demo Video
 
 🎥 [Watch Project Demo](https://youtube.com/shorts/xEofub0lBZo?feature=share)
-
-## License
-
-This project is open-source and available for educational and research use.
-
-## GitHub
-
-📁 [https://github.com/Ortizaw027/SDL\_Boat\_Swarm.git](https://github.com/Ortizaw027/SDL_Boat_Swarm.git)
